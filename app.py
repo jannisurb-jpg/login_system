@@ -10,6 +10,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+with app.app_context():
+    db.create_all()
+
 app.secret_key = "SessionTestKey123"
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(seconds=20)
 
@@ -166,4 +169,5 @@ if __name__ == "__main__":
     if developMode == True:
         app.run(debug=True)
     else:
+
         app.run(host="0.0.0.0", port=5000, debug=True)
