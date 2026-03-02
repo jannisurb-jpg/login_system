@@ -4,9 +4,13 @@ from flask import render_template, request, redirect, url_for, make_response, se
 from datetime import datetime, timedelta
 import re
 import bcrypt
+import os
 
 app = flask.Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///db.db')
+if app.config['SQLALCHEMY_DATABASE_URI'].startswith("postgres://"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'].replace("postgres://", "postgresql://", 1)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -171,3 +175,4 @@ if __name__ == "__main__":
     else:
 
         app.run(host="0.0.0.0", port=5000, debug=True)
+
