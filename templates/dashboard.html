@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ username }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="title"><strong>Dashboard</strong></div>
+    <div class="dashboard-window">
+        <p>Hallo {{ username }}!</p>
+        <p>Du hast dein Konto am {{ created_at.strftime("%d.%m.%Y") }} erstellt!</p>
+
+        <form class="input-group" action="" method="POST">
+            <input type="text" name="change_password" placeholder="Neues Passwort eingeben..." class="inputField">
+            <button type="submit">Bestätigen</button>
+
+            {% if username == "admin" %}
+            <p>Admin Bereich</p>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Löschen?</th>
+                </tr>
+
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email_address }}</td>
+                    <td>{{ user.username }}</td>
+                    <td><button type="submit" name="delete" value="{{ user.id }}">Löschen</button></td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
